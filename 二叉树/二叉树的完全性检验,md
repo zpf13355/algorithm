@@ -1,0 +1,99 @@
+### 题目
+
+给定一个二叉树，确定它是否是一个完全二叉树。
+
+百度百科中对完全二叉树的定义如下：
+
+若设二叉树的深度为 h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第 h 层所有的结点都连续集中在最左边，这就是完全二叉树。（注：第 h 层可能包含 1~ 2h 个节点。）
+
+ 
+
+示例 1：
+
+
+
+输入：[1,2,3,4,5,6]
+输出：true
+解释：最后一层前的每一层都是满的（即，结点值为 {1} 和 {2,3} 的两层），且最后一层中的所有结点（{4,5,6}）都尽可能地向左。
+示例 2：
+
+
+
+输入：[1,2,3,4,5,null,7]
+输出：false
+解释：值为 7 的结点没有尽可能靠向左侧。
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+### 题解
+
+**1.** 根节点入队
+
+**2.** 循环出队首元素层序遍历
+
+  是空 说明结束循环说明到了树的最后一层 
+
+  不是空就继续讲该节点的左右孩子入队  
+
+**3.** 判断队列剩余的元素是否都是null
+
+  都是null说明是完全二叉树
+
+  存在非null节点就不是完全二叉树
+
+
+
+*![QQ截图20210130195206.png](https://pic.leetcode-cn.com/1612007547-GrgMwZ-QQ%E6%88%AA%E5%9B%BE20210130195206.png)*
+
+
+
+
+
+### 代码
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isCompleteTree(TreeNode root) {
+        //空树
+        if(root==null){
+            return false;
+        }
+        Deque<TreeNode> queue=new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()){
+            TreeNode node=queue.remove();
+            
+            if(node==null){
+                break;
+            }
+            queue.add(node.left);
+            queue.add(node.right);
+        }
+        //完全二叉树节点和空泾渭分明
+        while(!queue.isEmpty()){
+            if(queue.remove()!=null){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
+
