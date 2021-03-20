@@ -1,29 +1,24 @@
 ### 题目
-
 输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
 
 序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
 
- 
 
-示例 1：
+>示例 1：
+>输入：target = 9
+>输出：[[2,3,4],[4,5]]
+>示例 2：
+>输入：target = 15
+>输出：[[1,2,3,4,5],[4,5,6],[7,8]]
 
-输入：target = 9
-输出：[[2,3,4],[4,5]]
-示例 2：
+### 思路-双指针+滑动窗口
+>- 初始化：左边界left=1;右边界right=2;窗口和s=3
+>- 循环i>=j跳出(题目要求至少两个元素)
+>   1. s==target,滑动窗口序列加入结果集, left后移
+>   2. s> target left后移 窗口和s减去左边界
+>   3. s<target right后移 窗口和加上右边界
+>- 返回结果集
 
-输入：target = 15
-输出：[[1,2,3,4,5],[4,5,6],[7,8]]
-
-来源：力扣（LeetCode）
-链接：https://leetcode-cn.com/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof
-著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-
-### 参考
-
-https://leetcode-cn.com/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof/solution/jian-zhi-offer-57-ii-he-wei-s-de-lian-xu-t85z/
-
-### 代码
 
 ```java
 class Solution {
@@ -40,7 +35,7 @@ class Solution {
                 }
                 list.add(res);
             }
-            //等于left也要后移一步
+            //相等也要后移
             if(s>=target){
                 s-=left;
                 left++;
@@ -48,9 +43,13 @@ class Solution {
                 right++;
                 s+=right;
             }
-        }
+        } 
+        //二维数组必须指定第一维大小
         return list.toArray(new int[0][]);
     }
 }
 ```
 
+### 复杂度
+>**时间复杂度O(n)**
+>**空间复杂度O(1)**: left,right,s均是常数阶
